@@ -1,8 +1,9 @@
 package pl.javastart.library.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
-public abstract class Publication implements Serializable {
+public abstract class Publication implements Serializable,Comparable<Publication>,CsvConvertible {
     private int year;
     private String title;
     private String publisher;
@@ -15,7 +16,7 @@ public abstract class Publication implements Serializable {
 
     @Override
     public String toString() {
-        return title + " " + year + " " + publisher;
+        return "tytul " + title + " rok " + year + " publikacja " + publisher;
     }
 
     public int getYear() {
@@ -41,5 +42,21 @@ public abstract class Publication implements Serializable {
     public void setPublisher(String publisher) {
         this.publisher = publisher;
     }
-    abstract public String toCsv();
+
+    @Override
+    public int compareTo(Publication p){
+        return title.compareToIgnoreCase(p.title);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Publication that)) return false;
+        return year == that.year && Objects.equals(title, that.title) && Objects.equals(publisher, that.publisher);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(year, title, publisher);
+    }
 }

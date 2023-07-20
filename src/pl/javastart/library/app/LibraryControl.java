@@ -1,17 +1,14 @@
 package pl.javastart.library.app;
 
-import pl.javastart.library.exceptions.DataExportException;
-import pl.javastart.library.exceptions.DataImportException;
-import pl.javastart.library.exceptions.InvalidDataException;
-import pl.javastart.library.exceptions.NoSuchOptionException;
+import pl.javastart.library.exceptions.*;
 import pl.javastart.library.io.ConsolePrinter;
 import pl.javastart.library.io.DataReader;
 import pl.javastart.library.io.file.FileManager;
 import pl.javastart.library.io.file.FileManagerBuilder;
 import pl.javastart.library.model.Book;
 import pl.javastart.library.model.Library;
+import pl.javastart.library.model.LibraryUser;
 import pl.javastart.library.model.Magazine;
-import pl.javastart.library.model.Publication;
 
 import java.util.InputMismatchException;
 
@@ -46,19 +43,44 @@ public class LibraryControl {
                 case PRINT_BOOK:
                     printBooks();
                     break;
-                case EXIT:
-                    exit();
-                    break;
                 case ADD_MAGAZINES:
                     addMagazine();
                     break;
                 case PRINT_MAGAZINES :
                     printMagazines();
                     break;
+                case REMOVE_BOOK:
+                    removeBook();
+                    break;
+                case REMOVE_MAGAZINE:
+                    removeMagazine();
+                    break;
+                case ADD_USER:
+                    addUser();
+                    break;
+                case PRINT_USERS:
+                    printUsers();
+                    break;
+                case EXIT:
+                    exit();
+                    break;
                 default :
                     System.out.println("Nie ma takiej opcji, wprowadz ponownie");
             }
         }while(option != Option.EXIT);
+    }
+
+    private void addUser() {
+        LibraryUser libraryUser = dataReader.createLibraryUser();
+        try {
+            library.addUser(libraryUser);
+        }catch (UserAlreadyExistsException e){
+            printer.printLine(e.getMessage());
+        }
+    }
+
+    private void printUsers() {
+        printer.printUsers(library.getUsers().values());
     }
 
     private Option getOption() {
@@ -84,11 +106,6 @@ public class LibraryControl {
         }
     }
 
-    private void printMagazines() {
-        Publication[] publications = library.getPublications();
-        printer.printMagazines(publications);
-    }
-
     private void addMagazine() {
         try {
             Magazine magazine = dataReader.readAndCreateMagazine();
@@ -97,6 +114,49 @@ public class LibraryControl {
             printer.printLine("Nie udalo sie utworzyc magazynu, niepoprawne dane");
         }catch (ArrayIndexOutOfBoundsException e){
             printer.printLine("Osiagnieto limit pojemnosci, nie mozna dodac kolejnego magazynu");
+        }
+    }
+
+    private void printMagazines() {
+        printer.printMagazines(library.getPublications().values());
+    }
+
+    private void removeMagazine() {
+        try{
+            Magazine magazine = dataReader.readAndCreateMagazine();
+            if (library.removePublication(magazine))
+                printer.printLine("Usunieto magazyn");
+            else
+                printer.printLine("Nie znaleziono magazynu");
+        }catch (InputMismatchException e){
+            printer.printLine("Nie udalo sie utworzyc magazynu, niepoprawne dane");
+        }
+    }
+
+
+    private void addBook() {
+        try{
+            Book book = dataReader.readAndCreateBook();
+            library.addPublication(book);
+        }catch (InputMismatchException e){
+            printer.printLine("Nie udalo sie utworzyc ksiazki niepoprawne dane");
+        }catch (ArrayIndexOutOfBoundsException e){
+            printer.printLine("Osiagnieto limit pojemnosci, nie mozna dodac kolejnej ksiazki");
+        }
+    }
+
+    private void printBooks() {
+        printer.printBooks(library.getPublications().values());
+    }
+    private void removeBook() {
+        try{
+            Book book = dataReader.readAndCreateBook();
+            if (library.removePublication(book))
+                printer.printLine("Usunieto ksiazke");
+            else
+                printer.printLine("Nie znaleziono ksiazki");
+        }catch (InputMismatchException e){
+            printer.printLine("Nie udalo sie utworzyc ksiazki, niepoprawne dane");
         }
     }
 
@@ -110,27 +170,17 @@ public class LibraryControl {
         System.out.println("Koniec programu");
         dataReader.close();
     }
-    private void printBooks() {
-        Publication[] publications = library.getPublications();
-        printer.printBooks(publications);
-    }
-
-    private void addBook() {
-        try{
-            Book book = dataReader.readAndCreateBook();
-            library.addPublication(book);
-        }catch (InputMismatchException e){
-            printer.printLine("Nie udalo sie utworzyc ksiazki niepoprawne dane");
-        }catch (ArrayIndexOutOfBoundsException e){
-            printer.printLine("Osiagnieto limit pojemnosci, nie mozna dodac kolejnej ksiazki");
-        }
-    }
     private enum Option {
         EXIT(0,"wyjscie z programu"),
         ADD_BOOK(1,"dodanie nowej ksiazki"),
         PRINT_BOOK(2,"wyswietelnie dostepnych ksiazek"),
         ADD_MAGAZINES(3,"dodanie nowego magazynu"),
-        PRINT_MAGAZINES(4,"wyswietelnie dostepnych magazynow");
+        PRINT_MAGAZINES(4,"wyswietelnie dostepnych magazynow"),
+        REMOVE_BOOK(5,"usun ksiazke"),
+        REMOVE_MAGAZINE(6,"usun magazyn"),
+        ADD_USER(7,"dodaj czytelnika"),
+        PRINT_USERS(8,"wyswietl czytelnikow");
+
         private final int value;
         private final String description;
 

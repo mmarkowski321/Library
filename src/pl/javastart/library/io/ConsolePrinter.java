@@ -1,12 +1,15 @@
 package pl.javastart.library.io;
 
 import pl.javastart.library.model.Book;
+import pl.javastart.library.model.LibraryUser;
 import pl.javastart.library.model.Magazine;
 import pl.javastart.library.model.Publication;
 
+import java.util.Collection;
+
 public class ConsolePrinter {
 
-    public void printMagazines(Publication[] publications) {
+    public void printMagazines(Collection<Publication> publications) {
         int counter = 0;
         for (Publication publication : publications){
             if (publication instanceof Magazine){
@@ -18,7 +21,7 @@ public class ConsolePrinter {
             printLine("Brak magazynów w bibliotece");
         }
     }
-    public void printBooks(Publication[] publications) {
+    public void printBooks(Collection<Publication> publications) {
         int counter = 0;
         for (Publication publication : publications){
             if (publication instanceof Book){
@@ -32,5 +35,10 @@ public class ConsolePrinter {
     }
     public void printLine(String text){
         System.out.println(text);
+    }
+    public void printUsers(Collection<LibraryUser> libraryUsers){
+        for (LibraryUser libraryUser : libraryUsers) {
+            printLine(libraryUser.toString());
+        }
     }
 }

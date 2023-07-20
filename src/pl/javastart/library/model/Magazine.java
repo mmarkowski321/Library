@@ -1,5 +1,7 @@
 package pl.javastart.library.model;
 
+import java.util.Objects;
+
 public class Magazine extends Publication{
     public static final String TYPE = "Magazyn";
     private int month;
@@ -39,7 +41,7 @@ public class Magazine extends Publication{
 
     @Override
     public String toString() {
-        return super.toString() + " " + month + " " + day + " " + language;
+        return super.toString() + " miesiac " + month + " dzien " + day + " jezyk " + language;
     }
     @Override
     public String toCsv(){
@@ -49,6 +51,19 @@ public class Magazine extends Publication{
                 getYear() + ";" +
                 month + ";" +
                 day + ";" +
-                language + "";
+                language ;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Magazine magazine)) return false;
+        if (!super.equals(o)) return false;
+        return month == magazine.month && day == magazine.day && Objects.equals(language, magazine.language);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), month, day, language);
     }
 }
