@@ -5,11 +5,10 @@ import pl.javastart.library.io.ConsolePrinter;
 import pl.javastart.library.io.DataReader;
 import pl.javastart.library.io.file.FileManager;
 import pl.javastart.library.io.file.FileManagerBuilder;
-import pl.javastart.library.model.Book;
-import pl.javastart.library.model.Library;
-import pl.javastart.library.model.LibraryUser;
-import pl.javastart.library.model.Magazine;
+import pl.javastart.library.model.*;
 
+
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 public class LibraryControl {
@@ -43,23 +42,29 @@ public class LibraryControl {
                 case PRINT_BOOK:
                     printBooks();
                     break;
+                case REMOVE_BOOK:
+                    removeBook();
+                    break;
                 case ADD_MAGAZINES:
                     addMagazine();
                     break;
                 case PRINT_MAGAZINES :
                     printMagazines();
                     break;
-                case REMOVE_BOOK:
-                    removeBook();
-                    break;
                 case REMOVE_MAGAZINE:
                     removeMagazine();
+                    break;
+                case FIND_PUBLICATION_BY_TITLE:
+                    findPublicationByTitle();
                     break;
                 case ADD_USER:
                     addUser();
                     break;
                 case PRINT_USERS:
                     printUsers();
+                    break;
+                case REMOVE_USER:
+                    removeUser();
                     break;
                 case EXIT:
                     exit();
@@ -68,6 +73,15 @@ public class LibraryControl {
                     System.out.println("Nie ma takiej opcji, wprowadz ponownie");
             }
         }while(option != Option.EXIT);
+    }
+
+    private void findPublicationByTitle() {
+        printer.printLine("Wprowadz tytul ksiazki");
+        String title = dataReader.getString();
+        String notFoundMessage = "Brak publikacji o takim tytule";
+        library.findPublicationByBook(title)
+                .map(Publication::toString)
+                .ifPresentOrElse(System.out::println,() -> printer.printLine(notFoundMessage));
     }
 
     private void addUser() {
@@ -80,7 +94,23 @@ public class LibraryControl {
     }
 
     private void printUsers() {
-        printer.printUsers(library.getUsers().values());
+        printer.printUsers(library.getSortedUsers(
+                Comparator.comparing(User::getLastname,String.CASE_INSENSITIVE_ORDER)
+        ));
+    }
+
+    private void removeUser() {
+
+        try{
+            LibraryUser libraryUser = dataReader.createLibraryUser();
+            if (library.removeUser(libraryUser)){
+                printer.printLine("Usunieto uzytkownika");
+            }else {
+                printer.printLine("Nie ma takiego uzytkownika");
+            }
+        }catch (InputMismatchException e){
+            printer.printLine("Nie udalo sie utworzyc uzytkownika, niepoprawne dane");
+        }
     }
 
     private Option getOption() {
@@ -118,7 +148,9 @@ public class LibraryControl {
     }
 
     private void printMagazines() {
-        printer.printMagazines(library.getPublications().values());
+        printer.printMagazines(library.getSortedPublications(
+                Comparator.comparing(Publication::getTitle,String.CASE_INSENSITIVE_ORDER)
+        ));
     }
 
     private void removeMagazine() {
@@ -146,7 +178,9 @@ public class LibraryControl {
     }
 
     private void printBooks() {
-        printer.printBooks(library.getPublications().values());
+        printer.printBooks(library.getSortedPublications(
+                Comparator.comparing(Publication::getTitle,String.CASE_INSENSITIVE_ORDER)
+        ));
     }
     private void removeBook() {
         try{
@@ -170,16 +204,19 @@ public class LibraryControl {
         System.out.println("Koniec programu");
         dataReader.close();
     }
+
     private enum Option {
         EXIT(0,"wyjscie z programu"),
         ADD_BOOK(1,"dodanie nowej ksiazki"),
         PRINT_BOOK(2,"wyswietelnie dostepnych ksiazek"),
-        ADD_MAGAZINES(3,"dodanie nowego magazynu"),
-        PRINT_MAGAZINES(4,"wyswietelnie dostepnych magazynow"),
-        REMOVE_BOOK(5,"usun ksiazke"),
+        REMOVE_BOOK(3,"usun ksiazke"),
+        ADD_MAGAZINES(4,"dodanie nowego magazynu"),
+        PRINT_MAGAZINES(5,"wyswietelnie dostepnych magazynow"),
         REMOVE_MAGAZINE(6,"usun magazyn"),
-        ADD_USER(7,"dodaj czytelnika"),
-        PRINT_USERS(8,"wyswietl czytelnikow");
+        FIND_PUBLICATION_BY_TITLE(7,"znajdz ksiazke za pomoca tytulu"),
+        ADD_USER(8,"dodaj czytelnika"),
+        PRINT_USERS(9,"wyswietl czytelnikow"),
+        REMOVE_USER(10,"usun uzytkownika");
 
         private final int value;
         private final String description;

@@ -1,13 +1,9 @@
 package pl.javastart.library.model;
-
 import pl.javastart.library.exceptions.PublicationAlreadyExistsException;
 import pl.javastart.library.exceptions.UserAlreadyExistsException;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class Library implements Serializable {
 
@@ -20,6 +16,19 @@ public class Library implements Serializable {
 
     public Map<String, LibraryUser> getUsers() {
         return users;
+    }
+    public Optional<Publication> findPublicationByBook(String title){
+        return Optional.ofNullable(publications.get(title));
+    }
+    public Collection<Publication> getSortedPublications(Comparator<Publication> comparator){
+        ArrayList<Publication> list = new ArrayList<>(this.publications.values());
+        list.sort(comparator);
+        return list;
+    }
+    public Collection<LibraryUser> getSortedUsers(Comparator<LibraryUser> comparator){
+        ArrayList<LibraryUser> list = new ArrayList<>(this.users.values());
+        list.sort(comparator);
+        return list;
     }
 
     public void addPublication(Publication publication){
@@ -34,7 +43,14 @@ public class Library implements Serializable {
         }
         users.put(libraryUser.getPesel(),libraryUser);
     }
-
+    public boolean removeUser(LibraryUser libraryUser){
+        if (users.containsValue(libraryUser)){
+            users.remove(libraryUser.getPesel());
+            return true;
+        }else {
+            return false;
+        }
+    }
 
     public boolean removePublication(Publication pub) {
         if (publications.containsValue(pub)){

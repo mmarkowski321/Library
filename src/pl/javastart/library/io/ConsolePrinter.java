@@ -10,26 +10,27 @@ import java.util.Collection;
 public class ConsolePrinter {
 
     public void printMagazines(Collection<Publication> publications) {
-        int counter = 0;
-        for (Publication publication : publications){
-            if (publication instanceof Magazine){
-                printLine(publication.toString());
-                counter++;
-            }
-        }
-        if (counter == 0) {
+
+        long count = publications.stream()
+                .filter(s -> s instanceof Magazine)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
+
+
+        if (count == 0) {
             printLine("Brak magazynów w bibliotece");
         }
     }
     public void printBooks(Collection<Publication> publications) {
-        int counter = 0;
-        for (Publication publication : publications){
-            if (publication instanceof Book){
-                printLine(publication.toString());
-                counter++;
-            }
-        }
-        if (counter == 0) {
+        long count = publications.stream()
+                .filter(s -> s instanceof Book)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
+
+
+        if (count == 0) {
             printLine("Brak ksiazek w bibliotece");
         }
     }
@@ -37,8 +38,8 @@ public class ConsolePrinter {
         System.out.println(text);
     }
     public void printUsers(Collection<LibraryUser> libraryUsers){
-        for (LibraryUser libraryUser : libraryUsers) {
-            printLine(libraryUser.toString());
-        }
+        libraryUsers.stream()
+                .map(LibraryUser::toString)
+                .forEach(System.out::println);
     }
 }
