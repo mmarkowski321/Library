@@ -1,6 +1,6 @@
-package pl.javastart.library.model;
-import pl.javastart.library.exceptions.PublicationAlreadyExistsException;
-import pl.javastart.library.exceptions.UserAlreadyExistsException;
+package pl.javaApp.library.model;
+import pl.javaApp.library.exceptions.PublicationAlreadyExistsException;
+import pl.javaApp.library.exceptions.UserAlreadyExistsException;
 
 import java.io.Serializable;
 import java.util.*;

@@ -1,15 +1,12 @@
-package pl.javastart.library.io.file;
+package pl.javaApp.library.io.file;
 
-import pl.javastart.library.exceptions.DataExportException;
-import pl.javastart.library.exceptions.DataImportException;
-import pl.javastart.library.exceptions.InvalidDataException;
-import pl.javastart.library.model.*;
+import pl.javaApp.library.exceptions.DataExportException;
+import pl.javaApp.library.exceptions.DataImportException;
+import pl.javaApp.library.exceptions.InvalidDataException;
+import pl.javaApp.library.model.*;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Scanner;
-
 
 
 public class CsvFileManager implements FileManager{

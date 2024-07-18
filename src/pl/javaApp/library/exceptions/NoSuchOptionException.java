@@ -1,4 +1,4 @@
-package pl.javastart.library.exceptions;
+package pl.javaApp.library.exceptions;
 
 public class NoSuchOptionException extends Exception{
     public NoSuchOptionException(String message) {

@@ -1,4 +1,4 @@
-package pl.javastart.library.app;
+package pl.javaApp.library.app;
 
 public class LibraryApp {
     public static void main(String[] args) {

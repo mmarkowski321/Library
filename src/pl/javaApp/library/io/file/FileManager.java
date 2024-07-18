@@ -1,6 +1,6 @@
-package pl.javastart.library.io.file;
+package pl.javaApp.library.io.file;
 
-import pl.javastart.library.model.Library;
+import pl.javaApp.library.model.Library;
 
 public interface FileManager {
     Library importData();

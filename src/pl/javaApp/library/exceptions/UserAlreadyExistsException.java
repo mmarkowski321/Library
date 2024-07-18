@@ -1,4 +1,4 @@
-package pl.javastart.library.exceptions;
+package pl.javaApp.library.exceptions;
 
 public class UserAlreadyExistsException extends RuntimeException{
     public UserAlreadyExistsException(String message) {

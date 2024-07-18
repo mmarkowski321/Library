@@ -1,9 +1,9 @@
-package pl.javastart.library.io;
+package pl.javaApp.library.io;
 
-import pl.javastart.library.model.Book;
-import pl.javastart.library.model.LibraryUser;
-import pl.javastart.library.model.Magazine;
-import pl.javastart.library.model.Publication;
+import pl.javaApp.library.model.Book;
+import pl.javaApp.library.model.LibraryUser;
+import pl.javaApp.library.model.Magazine;
+import pl.javaApp.library.model.Publication;
 
 import java.util.Collection;
 

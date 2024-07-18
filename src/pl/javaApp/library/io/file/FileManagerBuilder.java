@@ -1,8 +1,8 @@
-package pl.javastart.library.io.file;
+package pl.javaApp.library.io.file;
 
-import pl.javastart.library.exceptions.NoSuchFileTypeException;
-import pl.javastart.library.io.ConsolePrinter;
-import pl.javastart.library.io.DataReader;
+import pl.javaApp.library.exceptions.NoSuchFileTypeException;
+import pl.javaApp.library.io.ConsolePrinter;
+import pl.javaApp.library.io.DataReader;
 
 public class FileManagerBuilder {
     private DataReader dataReader;

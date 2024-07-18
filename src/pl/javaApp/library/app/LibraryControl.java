@@ -1,11 +1,12 @@
-package pl.javastart.library.app;
+package pl.javaApp.library.app;
 
-import pl.javastart.library.exceptions.*;
-import pl.javastart.library.io.ConsolePrinter;
-import pl.javastart.library.io.DataReader;
-import pl.javastart.library.io.file.FileManager;
-import pl.javastart.library.io.file.FileManagerBuilder;
-import pl.javastart.library.model.*;
+import pl.javaApp.library.exceptions.*;
+import pl.javaApp.library.io.DataReader;
+import pl.javaApp.library.model.*;
+import pl.javaApp.library.io.ConsolePrinter;
+import pl.javaApp.library.io.file.FileManager;
+import pl.javaApp.library.io.file.FileManagerBuilder;
+
 
 
 import java.util.Comparator;

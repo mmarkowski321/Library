@@ -1,4 +1,4 @@
-package pl.javastart.library.model;
+package pl.javaApp.library.model;
 
 import java.io.Serializable;
 import java.util.Objects;
