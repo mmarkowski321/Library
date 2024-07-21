@@ -4,13 +4,13 @@ import java.io.Serializable;
 import java.time.Year;
 import java.util.Objects;
 
-public abstract class Publication implements Serializable,Comparable<Publication>,CsvConvertible {
-    private Year year;
+public abstract class Publication implements Serializable,Comparable<Publication>{
+    private int year;
     private String title;
     private String publisher;
 
     public Publication(String title, String publisher,int year) {
-        this.year = Year.of(year);
+        this.year = year;
         this.title = title;
         this.publisher = publisher;
     }
@@ -20,11 +20,11 @@ public abstract class Publication implements Serializable,Comparable<Publication
         return "tytul " + title + " rok " + year + " publikacja " + publisher;
     }
 
-    public Year getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(Year year) {
+    public void setYear(int year) {
         this.year = year;
     }
 

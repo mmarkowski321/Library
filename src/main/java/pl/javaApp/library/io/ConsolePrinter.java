@@ -1,9 +1,6 @@
 package pl.javaApp.library.io;
 
-import pl.javaApp.library.model.Book;
-import pl.javaApp.library.model.LibraryUser;
-import pl.javaApp.library.model.Magazine;
-import pl.javaApp.library.model.Publication;
+import pl.javaApp.library.model.*;
 
 import java.util.Collection;
 
@@ -39,7 +36,7 @@ public class ConsolePrinter {
     }
     public void printUsers(Collection<LibraryUser> libraryUsers){
         libraryUsers.stream()
-                .map(LibraryUser::toString)
+                .map(User::toString)
                 .forEach(System.out::println);
     }
 }

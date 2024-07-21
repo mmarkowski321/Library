@@ -34,16 +34,7 @@ public class Magazine extends Publication{
     public String toString() {
         return super.toString() + " miesiac " + monthDay.getMonthValue() + " dzien " + monthDay.getDayOfMonth() + " jezyk " + language;
     }
-    @Override
-    public String toCsv(){
-        return (TYPE + ";") +
-                getTitle() + ";" +
-                getPublisher() + ";" +
-                getYear() + ";" +
-                monthDay.getMonthValue() + ";" +
-                monthDay.getDayOfMonth() + ";" +
-                language ;
-    }
+
 
     @Override
     public boolean equals(Object o) {

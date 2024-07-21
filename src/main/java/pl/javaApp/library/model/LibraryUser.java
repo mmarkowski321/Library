@@ -48,9 +48,6 @@ public class LibraryUser extends User{
         return Objects.hash(super.hashCode(), publicationHistory, borrowedPublications);
     }
 
-    @Override
-    public String toCsv() {
-        return getName() + ";" + getLastname() + ";" + getPesel();
-    }
+
 
 }

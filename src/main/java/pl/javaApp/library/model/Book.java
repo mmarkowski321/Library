@@ -48,16 +48,7 @@ public class Book extends Publication{
     public String toString() {
         return super.toString() + " autor " + author + " strony " + pages + " isbn " + isbn;
     }
-    @Override
-    public String toCsv(){
-        return (TYPE + ";") +
-                getTitle() + ";" +
-                getPublisher() + ";" +
-                getYear() + ";" +
-                author + ";" +
-                pages + ";" +
-                isbn ;
-    }
+
 
     @Override
     public boolean equals(Object o) {
