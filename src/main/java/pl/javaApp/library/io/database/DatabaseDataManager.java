@@ -21,7 +21,7 @@ public class DatabaseDataManager implements DataManager {
             loadPublications();
             loadUsers();
         } catch (Exception e) {
-            throw new DataImportException("Error loading data from database", e);
+            throw new DataImportException("Blad zaladowania danych z bazy danych", e);
         }
     }
 
@@ -58,7 +58,7 @@ public class DatabaseDataManager implements DataManager {
                 saveBook(book);
             }
         } catch (SQLException e) {
-            throw new DataExportException("Error saving books to database", e);
+            throw new DataExportException("Błąd zapisania książek do bazdy danych", e);
         }
     }
 
@@ -69,7 +69,7 @@ public class DatabaseDataManager implements DataManager {
                 saveMagazine(magazine);
             }
         } catch (SQLException e) {
-            throw new DataExportException("Error saving magazines to database", e);
+            throw new DataExportException("Błąd zapisania magazynów do bazy danych", e);
         }
     }
 
@@ -90,7 +90,7 @@ public class DatabaseDataManager implements DataManager {
                 books.add(new Book(title, publisher, year, pages, author, isbn));
             }
         } catch (SQLException e) {
-            throw new DataImportException("Error loading books from database", e);
+            throw new DataImportException("Błąd załadowania książek z bazy danych", e);
         }
         return books;
     }
@@ -112,7 +112,7 @@ public class DatabaseDataManager implements DataManager {
                 magazines.add(new Magazine(title, publisher, year, language, month, day));
             }
         } catch (SQLException e) {
-            throw new DataImportException("Error loading magazines from database", e);
+            throw new DataImportException("Błąd załądowania magazynów z bazy danych", e);
         }
         return magazines;
     }
@@ -131,23 +131,24 @@ public class DatabaseDataManager implements DataManager {
                 users.add(new LibraryUser(name, lastname, pesel));
             }
         } catch (SQLException e) {
-            throw new DataImportException("Error loading users from database", e);
+            throw new DataImportException("Błąd załadowania użytkowników z bazy danych", e);
         }
         return users;
     }
 
     @Override
     public void saveLoan(User user, Book book) throws DataExportException {
-        String query = "INSERT INTO loans (user_name, user_lastname, user_pesel, book_title, loan_date) VALUES (?, ?, ?, ?, CURDATE())";
+        String query = "INSERT INTO loans (user_name, user_lastname, user_pesel, book_title, loan_date,book_isbn) VALUES (?, ?, ?, ?, CURDATE(),?)";
         try (Connection conn = DatabaseConnection.connect();
              PreparedStatement pstmt = conn.prepareStatement(query)) {
             pstmt.setString(1, user.getName());
             pstmt.setString(2, user.getLastname());
             pstmt.setString(3, user.getPesel());
             pstmt.setString(4, book.getTitle());
+            pstmt.setString(6,book.getIsbn());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new DataExportException("Error saving loan to database", e);
+            throw new DataExportException("Błąd zapisania wypożyczeń do bazy danych", e);
         }
     }
 
@@ -168,7 +169,6 @@ public class DatabaseDataManager implements DataManager {
                 int pages = rsBooks.getInt("pages");
                 String author = rsBooks.getString("author");
                 String isbn = rsBooks.getString("isbn");
-                // Dodaj książkę do kolekcji
             }
 
             while (rsMagazines.next()) {
@@ -178,7 +178,6 @@ public class DatabaseDataManager implements DataManager {
                 String language = rsMagazines.getString("language");
                 int month = rsMagazines.getInt("month");
                 int day = rsMagazines.getInt("day");
-                // Dodaj magazyn do kolekcji
             }
         }
     }
@@ -223,7 +222,7 @@ public class DatabaseDataManager implements DataManager {
 
             pstmt.executeBatch();
         } catch (SQLException e) {
-            throw new DataExportException("Error saving users to database", e);
+            throw new DataExportException("Błąd zapisania użytkowników do bazy danych", e);
         }
     }
 
@@ -236,7 +235,7 @@ public class DatabaseDataManager implements DataManager {
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            throw new DataExportException("Error removing user from database", e);
+            throw new DataExportException("Błąd usuwania użytkownika z bazy danych", e);
         }
     }
 
@@ -249,7 +248,7 @@ public class DatabaseDataManager implements DataManager {
             int rowsAffected = pstmt.executeUpdate();
             return rowsAffected > 0;
         } catch (SQLException e) {
-            throw new DataExportException("Error removing publication from database", e);
+            throw new DataExportException("Błąd usuwania publikacji z bazy danych", e);
         }
     }
 }

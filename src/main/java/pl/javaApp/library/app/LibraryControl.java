@@ -83,22 +83,21 @@ public class LibraryControl {
     }
 
     private void removeLoan() {
-        // implementacja usuwania wypożyczenia
+
     }
 
     private void printLoanedPublications() {
-        // implementacja wyświetlania wypożyczonych publikacji
+
     }
 
     private void addLoan() {
-        // implementacja dodawania wypożyczenia
+
     }
 
     private void findPublicationByTitle() {
         printer.printLine("Wprowadz tytul ksiazki");
         String title = dataReader.getString();
         String notFoundMessage = "Brak publikacji o takim tytule";
-        // implementacja wyszukiwania publikacji po tytule
     }
 
     private void addUser() {
